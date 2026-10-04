@@ -1,499 +1,226 @@
-# Angular — Vue d'ensemble
+# Angular
 
-Angular est un framework TypeScript permettant de construire des applications web, principalement des applications **Single Page Applications (SPA)**.
+Cette section regroupe les mécanismes fondamentaux d'Angular utiles pour le développement frontend et Full Stack avec .NET.
 
-Pour bien comprendre Angular, il faut surtout comprendre comment plusieurs mécanismes travaillent ensemble :
+L'objectif n'est pas seulement de mémoriser la syntaxe Angular, mais de comprendre comment les différents mécanismes travaillent ensemble :
 
 ```text
 Application Angular
-│
-├── Components
-│     ├── Template
-│     ├── Class
-│     └── Styles
-│
-├── Services
-│
-├── Dependency Injection
-│
-├── Signals / Reactive state
-│
-├── Inputs / Outputs
-│
-├── Routing
-│
-└── HTTP / APIs
+      |
+      +-- Components
+      |      -> interface et comportement UI
+      |
+      +-- Services
+      |      -> logique réutilisable et communication
+      |
+      +-- Dependency Injection
+      |      -> fournit les dépendances
+      |
+      +-- Signals
+      |      -> état réactif
+      |
+      +-- Inputs / Outputs
+      |      -> communication entre components
+      |
+      +-- Routing
+      |      -> navigation entre les vues
+      |
+      +-- HttpClient
+      |      -> communication avec l'API
+      |
+      +-- RxJS
+             -> gestion des flux asynchrones
 ```
 
-Cette fiche donne la carte mentale générale. Les mécanismes importants seront détaillés dans les fichiers suivants.
-
----
-
-# 1. Angular, c'est quoi exactement ?
-
-Angular est un framework frontend basé sur **TypeScript**.
-
-Une application Angular est composée de différents éléments qui collaborent pour afficher et manipuler l'interface utilisateur.
-
-On peut simplifier :
-
-```text
-Utilisateur
-    ↓
-Interface Angular
-    ↓
-Component
-    ↓
-Service
-    ↓
-HTTP
-    ↓
-API ASP.NET Core
-    ↓
-Database
-```
-
-Dans ton contexte .NET, le schéma typique sera donc :
+Dans un contexte Full Stack .NET, le fonctionnement général peut être représenté ainsi :
 
 ```text
 Angular
-   ↓ HTTP
+    |
+    | HTTP / JSON
+    v
 ASP.NET Core Web API
-   ↓
+    |
+    v
+Services
+    |
+    v
 EF Core
-   ↓
-SQL Server
+    |
+    v
+Database
 ```
-
-Angular s'occupe principalement du frontend.
-
-ASP.NET Core s'occupe principalement du backend.
 
 ---
 
-# 2. Component : l'élément central
+## Fiches
 
-Le **component** est l'une des notions les plus importantes d'Angular.
+* [Components](components.md)
+* [Inputs & Outputs](inputs-outputs.md)
+* [Services](services.md)
+* [Signals](signals.md)
+* [RxJS](rxjs.md)
 
-Un component regroupe généralement :
+---
+
+## Ordre conseillé
+
+Pour apprendre Angular progressivement :
+
+1. [Components](components.md)
+2. [Inputs & Outputs](inputs-outputs.md)
+3. [Services](services.md)
+4. Dependency Injection
+5. [Signals](signals.md)
+6. Routing
+7. HttpClient
+8. [RxJS](rxjs.md)
+9. Forms
+10. Authentication
+
+Les concepts Routing, HttpClient, Forms et Authentication sont abordés dans la fiche de vue d'ensemble actuelle, mais ne disposent pas encore d'une fiche dédiée dans ce dossier.
+
+---
+
+## Structure d'une fiche
+
+Chaque fiche doit essayer de répondre à ces questions :
+
+1. Qu'est-ce que c'est ?
+2. Pourquoi Angular utilise ce mécanisme ?
+3. Quel problème cela résout ?
+4. Comment cela fonctionne derrière la syntaxe ?
+5. Comment l'utiliser correctement ?
+6. Quelles sont les erreurs fréquentes ?
+7. Quelle différence avec les mécanismes proches ?
+8. Quelle règle mentale permet de s'en souvenir ?
+9. Que peut-on demander en entretien ?
+
+---
+
+## Mental model
+
+Pour comprendre une application Angular, pense à ces responsabilités :
 
 ```text
 Component
-│
-├── TypeScript
-├── HTML
-└── CSS
-```
+    -> affiche et réagit à l'interface
 
-Exemple :
-
-```typescript
-@Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
-})
-export class UsersComponent {
-
-  users = [
-    'Alice',
-    'Bob'
-  ];
-}
-```
-
-Template :
-
-```html
-<h1>Users</h1>
-
-<ul>
-  <li *ngFor="let user of users">
-    {{ user }}
-  </li>
-</ul>
-```
-
-Le component contient donc la logique nécessaire à l'affichage et le template décrit l'interface.
-
----
-
-# 3. Le template
-
-Le template est le HTML associé au component.
-
-Exemple :
-
-```html
-<h1>{{ title }}</h1>
-```
-
-Si le component contient :
-
-```typescript
-title = 'Hotel Listing';
-```
-
-Angular affiche :
-
-```text
-Hotel Listing
-```
-
-Le mécanisme :
-
-```text
-TypeScript
-    ↓
-state / données
-    ↓
-Template
-    ↓
-DOM
-```
-
-Angular synchronise l'interface avec l'état du component.
-
----
-
-# 4. Interpolation
-
-L'interpolation utilise :
-
-```html
-{{ expression }}
-```
-
-Exemple :
-
-```typescript
-name = 'Ahlame';
-```
-
-```html
-<p>Bonjour {{ name }}</p>
-```
-
-Résultat :
-
-```text
-Bonjour Ahlame
-```
-
-On peut également utiliser des expressions simples :
-
-```html
-<p>{{ price * quantity }}</p>
-```
-
-Mais il vaut mieux éviter de mettre trop de logique dans le template.
-
----
-
-# 5. Property binding
-
-Le property binding permet de lier une propriété du DOM à une valeur Angular.
-
-Syntaxe :
-
-```html
-<img [src]="imageUrl">
-```
-
-Ici :
-
-```text
-[src]
-```
-
-est une propriété du DOM.
-
-Et :
-
-```text
-imageUrl
-```
-
-vient du component.
-
-Exemple :
-
-```typescript
-imageUrl = '/images/hotel.jpg';
-```
-
-Angular établit le lien :
-
-```text
-imageUrl
-   ↓
-[src]
-   ↓
-<img>
-```
-
----
-
-# 6. Event binding
-
-Le event binding permet de réagir aux événements utilisateur.
-
-Syntaxe :
-
-```html
-<button (click)="save()">
-  Save
-</button>
-```
-
-Lorsqu'un utilisateur clique :
-
-```text
-click
-  ↓
-save()
-  ↓
-code TypeScript
-```
-
-Exemple :
-
-```typescript
-save() {
-  console.log('Saved');
-}
-```
-
-Mental model :
-
-```text
-[] = données → interface
-
-() = interface → component
-```
-
----
-
-# 7. Two-way binding
-
-Le two-way binding permet une synchronisation dans les deux directions.
-
-Syntaxe classique :
-
-```html
-<input [(ngModel)]="name">
-```
-
-Cela signifie conceptuellement :
-
-```text
-Component
-   ↕
-Input
-```
-
-Une modification dans le component peut modifier l'input.
-
-Une modification dans l'input peut modifier la valeur du component.
-
-Le symbole :
-
-```text
-[( )]
-```
-
-est souvent appelé **banana-in-a-box**.
-
----
-
-# 8. Components parent et enfant
-
-Une application Angular contient généralement une hiérarchie de components.
-
-Exemple :
-
-```text
-AppComponent
-│
-├── HeaderComponent
-├── HotelListComponent
-│      │
-│      ├── HotelCardComponent
-│      ├── HotelCardComponent
-│      └── HotelCardComponent
-│
-└── FooterComponent
-```
-
-Le parent peut transmettre des données à l'enfant.
-
-L'enfant peut notifier le parent d'un événement.
-
-C'est là qu'interviennent :
-
-```text
-Input
-Output
-```
-
----
-
-# 9. Input
-
-Un `Input` permet au parent de transmettre une valeur à un enfant.
-
-Exemple :
-
-Parent :
-
-```html
-<app-user-card
-  [user]="selectedUser">
-</app-user-card>
-```
-
-Enfant :
-
-```typescript
-@Input()
-user!: User;
-```
-
-Mental model :
-
-```text
-Parent
-   │
-   │ données
-   ↓
-Child
-```
-
-Donc :
-
-> `Input` = parent → enfant.
-
----
-
-# 10. Output
-
-Un `Output` permet à l'enfant d'émettre un événement vers le parent.
-
-Exemple :
-
-```typescript
-@Output()
-deleted = new EventEmitter<number>();
-```
-
-Puis :
-
-```typescript
-deleteUser() {
-  this.deleted.emit(this.user.id);
-}
-```
-
-Parent :
-
-```html
-<app-user-card
-  (deleted)="deleteUser($event)">
-</app-user-card>
-```
-
-Mental model :
-
-```text
-Parent
-   ↑
-   │ événement
-Child
-```
-
-Donc :
-
-> `Output` = enfant → parent.
-
----
-
-# 11. Services
-
-Un service contient généralement une logique qui ne devrait pas être directement dans le component.
-
-Exemple :
-
-```typescript
-@Injectable({
-  providedIn: 'root'
-})
-export class HotelService {
-
-  getHotels() {
-    // appel API
-  }
-}
-```
-
-Le component peut utiliser ce service.
-
-```text
-Component
-    ↓
 Service
-    ↓
+    -> centralise la logique réutilisable
+
+Dependency Injection
+    -> fournit les dépendances
+
+Signal
+    -> représente un état réactif
+
+Input
+    -> parent -> enfant
+
+Output
+    -> enfant -> parent
+
+Router
+    -> URL -> component
+
+HttpClient
+    -> Angular -> API
+
+RxJS
+    -> flux asynchrones
+```
+
+---
+
+## Components
+
+Le component constitue l'un des éléments centraux d'Angular.
+
+Il regroupe généralement :
+
+```text
+Component
+    |
+    +-- TypeScript
+    +-- Template HTML
+    +-- Styles
+```
+
+Le component contient le comportement nécessaire à l'interface tandis que le template décrit ce qui doit être affiché.
+
+Voir : [Components](components.md)
+
+---
+
+## Communication entre components
+
+Angular permet aux components de communiquer entre eux.
+
+```text
+Parent
+   |
+   | Input
+   v
+Child
+   |
+   | Output
+   v
+Parent
+```
+
+La règle mentale :
+
+```text
+Input  = parent -> enfant
+Output = enfant -> parent
+```
+
+Voir : [Inputs & Outputs](inputs-outputs.md)
+
+---
+
+## Services
+
+Les services permettent notamment de sortir certaines responsabilités des components.
+
+Exemple :
+
+```text
+Component
+    |
+    v
+Service
+    |
+    v
 HTTP
-    ↓
+    |
+    v
 API
 ```
 
-Cela permet de séparer :
+Cela permet d'éviter de concentrer toute la logique dans les components.
 
-```text
-UI
-```
-
-et :
-
-```text
-Business / communication logic
-```
+Voir : [Services](services.md)
 
 ---
 
-# 12. Dependency Injection
+## Dependency Injection
 
 Angular possède son propre système de Dependency Injection.
 
-Exemple :
-
-```typescript
-constructor(private hotelService: HotelService) {}
-```
-
-Le component demande :
-
-```text
-HotelService
-```
-
-au système d'injection.
-
-Angular fournit alors l'instance configurée.
-
-Mental model :
+Le principe est similaire dans l'idée à celui utilisé dans ASP.NET Core :
 
 ```text
 Component
-   ↓
-"J'ai besoin de HotelService"
-   ↓
+    |
+    | "J'ai besoin de HotelService"
+    v
 Angular DI
-   ↓
+    |
+    v
 HotelService
 ```
-
-C'est très similaire dans l'esprit au système DI d'ASP.NET Core.
 
 En .NET :
 
@@ -501,152 +228,63 @@ En .NET :
 builder.Services.AddScoped<IHotelService, HotelService>();
 ```
 
-Puis :
-
-```csharp
-public HotelController(IHotelService service)
-{
-    _service = service;
-}
-```
-
-Angular suit un principe comparable :
-
-```text
-Dependency Injection
-```
-
-mais avec les mécanismes propres à Angular/TypeScript.
+En Angular, le mécanisme et la syntaxe sont différents, mais l'idée générale reste celle de l'injection de dépendances.
 
 ---
 
-# 13. Signals
+## Signals
 
-Les Signals sont un mécanisme important dans Angular moderne pour gérer l'état réactif.
-
-Exemple :
-
-```typescript
-count = signal(0);
-```
-
-Lire la valeur :
-
-```typescript
-count()
-```
-
-Modifier :
-
-```typescript
-count.set(10);
-```
-
-Ou :
-
-```typescript
-count.update(value => value + 1);
-```
+Les Signals permettent de représenter un état réactif dans Angular moderne.
 
 Mental model :
 
 ```text
-signal
-   ↓
-state réactif
-   ↓
-Angular sait quand la valeur change
-   ↓
-UI peut être mise à jour
+Signal
+    |
+    v
+État réactif
+    |
+    v
+Angular détecte les changements
+    |
+    v
+Interface mise à jour
 ```
+
+Une distinction importante :
+
+```text
+Signal
+    = donnée source
+
+Computed
+    = donnée dérivée
+```
+
+Voir : [Signals](signals.md)
 
 ---
 
-# 14. Computed
+## Routing
 
-`computed()` permet de créer une valeur dérivée à partir de Signals.
-
-Exemple :
-
-```typescript
-firstName = signal('Ahlame');
-lastName = signal('Mohsine');
-
-fullName = computed(() =>
-  `${firstName()} ${lastName()}`
-);
-```
-
-Ici :
-
-```text
-firstName
-lastName
-   ↓
-computed
-   ↓
-fullName
-```
-
-`fullName` ne représente pas une nouvelle source de vérité.
-
-C'est une valeur calculée à partir d'autres états.
+Le Router permet de naviguer entre différentes vues d'une application Angular sans recharger toute l'application.
 
 Mental model :
 
 ```text
-Signal = donnée source
-
-Computed = donnée dérivée
+URL
+  |
+  v
+Angular Router
+  |
+  v
+Route
+  |
+  v
+Component
 ```
 
----
-
-# 15. `effect`
-
-`effect()` sert à exécuter du code lorsqu'un Signal lu par l'effet change.
-
-Exemple :
-
-```typescript
-effect(() => {
-  console.log(this.count());
-});
-```
-
-Si :
-
-```typescript
-count.set(10);
-```
-
-l'effet peut être réexécuté car il dépend de `count()`.
-
-Il faut cependant éviter d'utiliser `effect()` pour tout.
-
-Pour une valeur dérivée :
-
-```typescript
-computed()
-```
-
-est généralement plus approprié.
-
-Mental model :
-
-```text
-computed = calculer une valeur
-
-effect = effectuer une action secondaire
-```
-
----
-
-# 16. Routing
-
-Angular permet de naviguer entre différentes vues sans recharger toute l'application.
-
-Exemple :
+Exemples :
 
 ```text
 /hotels
@@ -655,120 +293,83 @@ Exemple :
 /users
 ```
 
-Configuration conceptuelle :
-
-```typescript
-const routes: Routes = [
-  {
-    path: 'hotels',
-    component: HotelListComponent
-  },
-  {
-    path: 'hotels/:id',
-    component: HotelDetailsComponent
-  }
-];
-```
-
-Navigation :
-
-```text
-URL
- ↓
-Angular Router
- ↓
-Route correspondante
- ↓
-Component
-```
-
-C'est l'un des mécanismes fondamentaux d'une SPA.
-
 ---
 
-# 17. HttpClient
+## HttpClient
 
 Angular communique généralement avec une API grâce à `HttpClient`.
 
-Exemple :
-
-```typescript
-this.http.get<Hotel[]>('/api/hotels');
-```
-
-Le flux devient :
+Dans une application Full Stack .NET :
 
 ```text
 Angular
-   ↓ HTTP GET
+    |
+    | HTTP GET / POST / PUT / DELETE
+    v
 ASP.NET Core API
-   ↓
-Controller
-   ↓
+    |
+    v
 Service
-   ↓
+    |
+    v
 EF Core
-   ↓
+    |
+    v
 Database
 ```
 
-Puis :
+Puis la réponse revient sous forme de données, généralement JSON :
 
 ```text
 Database
-   ↓
+    |
+    v
 EF Core
-   ↓
-API
-   ↓ JSON
+    |
+    v
+ASP.NET Core
+    |
+    | JSON
+    v
 Angular
-   ↓
+    |
+    v
 Component
-   ↓
+    |
+    v
 Template
 ```
 
 ---
 
-# 18. Observables et RxJS
+## RxJS
 
-Angular utilise largement **RxJS** pour la programmation réactive.
-
-Exemple :
-
-```typescript
-this.http.get<Hotel[]>('/api/hotels')
-```
-
-retourne généralement un :
-
-```typescript
-Observable<Hotel[]>
-```
-
-On peut ensuite utiliser des opérateurs RxJS :
-
-```typescript
-pipe(
-  map(...),
-  filter(...),
-  catchError(...)
-)
-```
+Angular utilise largement RxJS pour gérer les flux asynchrones.
 
 Mental model :
 
 ```text
 Observable
-    ↓
-flux de valeurs
-    ↓
-operators
-    ↓
-résultat
+    |
+    v
+Flux de valeurs
+    |
+    v
+Operators
+    |
+    v
+Résultat
 ```
 
-Il faut bien distinguer :
+Exemples d'opérateurs :
+
+```text
+map
+filter
+catchError
+```
+
+Il faut notamment savoir distinguer :
 
 ```text
 Promise
@@ -780,294 +381,196 @@ et :
 Observable
 ```
 
-Ils ne répondent pas exactement aux mêmes besoins.
+Ils répondent à des besoins différents.
+
+Voir : [RxJS](rxjs.md)
 
 ---
 
-# 19. Angular et ASP.NET Core : architecture complète
+## Angular et ASP.NET Core
 
-Dans ton contexte .NET, tu peux retenir cette architecture :
+Dans ton contexte Full Stack .NET, garde cette architecture en tête :
 
 ```text
-┌───────────────────────────┐
-│          Angular          │
-│                           │
-│ Components                │
-│ Services                  │
-│ Signals                   │
-│ Router                    │
-│ HttpClient                │
-└─────────────┬─────────────┘
-              │ HTTP
-              │ JSON
-              ↓
-┌───────────────────────────┐
-│      ASP.NET Core API     │
-│                           │
-│ Controllers               │
-│ Services                  │
-│ DTOs                      │
-│ Authentication            │
-│ Authorization             │
-└─────────────┬─────────────┘
-              ↓
-┌───────────────────────────┐
-│         EF Core           │
-│                           │
-│ DbContext                 │
-│ Entities                  │
-│ LINQ                      │
-└─────────────┬─────────────┘
-              ↓
-┌───────────────────────────┐
-│         Database          │
-└───────────────────────────┘
++---------------------------+
+|          Angular          |
+|                           |
+| Components                |
+| Services                  |
+| Signals                   |
+| Router                    |
+| HttpClient                |
++-------------+-------------+
+              |
+              | HTTP / JSON
+              v
++---------------------------+
+|     ASP.NET Core API      |
+|                           |
+| Controllers               |
+| Services                  |
+| DTOs                      |
+| Authentication            |
+| Authorization             |
++-------------+-------------+
+              |
+              v
++---------------------------+
+|          EF Core          |
+|                           |
+| DbContext                 |
+| Entities                  |
+| LINQ                      |
++-------------+-------------+
+              |
+              v
++---------------------------+
+|         Database          |
++---------------------------+
 ```
 
-Cette séparation est extrêmement importante.
-
----
-
-# 20. Angular ne remplace pas ASP.NET Core
-
-Angular et ASP.NET Core n'ont pas le même rôle.
+La séparation principale est :
 
 ```text
 Angular
-= frontend
-= interface utilisateur
-= interaction utilisateur
-= état UI
-= appels HTTP
-```
+    = frontend
 
-```text
 ASP.NET Core
-= backend
-= API
-= logique métier
-= sécurité
-= accès aux données
+    = backend / API
+
+EF Core
+    = accès aux données
+
+Database
+    = persistance
 ```
-
-Exemple :
-
-```text
-Angular demande :
-
-GET /api/hotels
-```
-
-ASP.NET Core répond :
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Hotel Royal"
-  }
-]
-```
-
-Angular transforme ensuite ces données en interface.
 
 ---
 
-# 21. Où placer la logique ?
+## Où placer la logique ?
 
-Une erreur fréquente est de mettre toute la logique dans les components.
+Une erreur fréquente consiste à mettre trop de responsabilités dans les components.
 
-Mauvaise organisation :
+À éviter :
 
 ```text
 Component
- ├── affichage
- ├── appels HTTP
- ├── business logic
- ├── transformation des données
- └── gestion complexe de l'état
+    |
+    +-- affichage
+    +-- appels HTTP
+    +-- logique complexe
+    +-- transformation des données
+    +-- gestion importante de l'état
 ```
 
 On préfère généralement :
 
 ```text
 Component
-    ↓
+    |
+    v
 Service
-    ↓
+    |
+    v
 API
 ```
 
-avec une séparation claire des responsabilités.
-
-Le component doit principalement gérer l'interface et l'état lié à cette interface.
+Le component peut alors se concentrer davantage sur l'interface et l'état directement lié à celle-ci.
 
 ---
 
-# 22. Mental model général Angular
+## Correspondances Angular / .NET
 
-Quand tu regardes une application Angular, pense :
+Comme tu viens principalement de .NET, certaines analogies peuvent aider :
 
-```text
-COMPONENT
-    ↓
-affiche et réagit
+| Angular              | .NET / ASP.NET Core                   |
+| -------------------- | ------------------------------------- |
+| Component            | Classe orientée UI                    |
+| Service              | Service applicatif                    |
+| Dependency Injection | Dependency Injection                  |
+| HttpClient           | HttpClient                            |
+| Observable           | Abstraction de flux asynchrone        |
+| Router               | Routing                               |
+| Guard                | Contrôle d'accès / navigation         |
+| Interceptor          | Conceptuellement proche d'un pipeline |
+| Signal               | État réactif                          |
+| Template             | Interface / vue                       |
+| TypeScript           | Langage frontend                      |
+| ASP.NET Core API     | Backend                               |
+| EF Core              | Accès aux données                     |
 
-SERVICE
-    ↓
-centralise la logique / communication
-
-SIGNAL
-    ↓
-gère un état réactif
-
-INPUT
-    ↓
-parent → enfant
-
-OUTPUT
-    ↓
-enfant → parent
-
-ROUTER
-    ↓
-URL → component
-
-HTTP
-    ↓
-Angular → API
-
-RXJS
-    ↓
-flux asynchrones
-```
+Attention : ces correspondances servent à construire une intuition. Les mécanismes internes ne sont pas identiques.
 
 ---
 
-# 23. Ordre conseillé pour apprendre Angular
-
-Pour éviter d'apprendre les concepts dans le désordre :
-
-```text
-1. Components
-        ↓
-2. Templates
-        ↓
-3. Data binding
-        ↓
-4. Inputs / Outputs
-        ↓
-5. Services
-        ↓
-6. Dependency Injection
-        ↓
-7. Routing
-        ↓
-8. HttpClient
-        ↓
-9. RxJS
-        ↓
-10. Signals
-        ↓
-11. Forms
-        ↓
-12. Authentication
-```
-
-Une fois ces bases comprises, les concepts plus avancés deviennent beaucoup plus faciles.
-
----
-
-# 24. Correspondances Angular / .NET
-
-Comme tu viens principalement de .NET, certaines analogies peuvent aider.
-
-| Angular | .NET / ASP.NET Core |
-|---|---|
-| Component | Classe orientée UI |
-| Service | Service applicatif |
-| Dependency Injection | Dependency Injection |
-| HttpClient | HttpClient |
-| Observable | Abstraction de flux asynchrone |
-| Router | Routing ASP.NET Core |
-| Guard | Logique de contrôle d'accès/navigation |
-| Interceptor | Middleware / pipeline conceptuellement |
-| Signal | État réactif |
-| Template | Vue / interface |
-| TypeScript | Langage côté frontend |
-| ASP.NET Core API | Backend |
-| EF Core | Accès aux données |
-
-Attention : ces correspondances servent uniquement à construire une intuition. Les mécanismes internes ne sont pas identiques.
-
----
-
-# 25. Questions d'entretien
+## Questions d'entretien
 
 ### Quelle est la différence entre un component et un service ?
 
-> Un component gère principalement une partie de l'interface utilisateur et son comportement. Un service permet de centraliser une logique réutilisable, par exemple des appels HTTP ou certaines opérations métier côté frontend.
+Un component gère principalement une partie de l'interface utilisateur et son comportement.
+
+Un service permet de centraliser une logique réutilisable, par exemple des appels HTTP.
 
 ### À quoi sert un Input ?
 
-> À transmettre une donnée d'un component parent vers un component enfant.
+À transmettre une donnée d'un component parent vers un component enfant.
 
 ### À quoi sert un Output ?
 
-> À permettre à un component enfant d'émettre un événement que le parent peut écouter.
+À permettre à un component enfant d'émettre un événement que le parent peut écouter.
 
 ### À quoi sert un Signal ?
 
-> À représenter un état réactif qu'Angular peut suivre afin de réagir aux changements de valeur.
+À représenter un état réactif qu'Angular peut suivre afin de réagir aux changements de valeur.
 
 ### À quoi sert `computed()` ?
 
-> À représenter une valeur dérivée calculée à partir d'autres Signals.
+À représenter une valeur dérivée calculée à partir d'autres Signals.
 
 ### Quel est le rôle de HttpClient ?
 
-> À effectuer des communications HTTP avec des services externes, notamment une API ASP.NET Core.
+À effectuer des communications HTTP avec des services externes, notamment une API ASP.NET Core.
 
 ### Pourquoi utiliser des services ?
 
-> Pour séparer la logique de l'interface et éviter de concentrer toute la responsabilité dans les components.
+Pour séparer la logique de l'interface et éviter de concentrer toute la responsabilité dans les components.
 
 ---
 
-# À retenir
+## À retenir
 
 ```text
 Component
-→ interface + comportement UI
+    -> interface + comportement UI
 
 Service
-→ logique réutilisable / communication
+    -> logique réutilisable / communication
 
 DI
-→ fournit les dépendances
+    -> fournit les dépendances
 
 Input
-→ parent → enfant
+    -> parent -> enfant
 
 Output
-→ enfant → parent
+    -> enfant -> parent
 
 Signal
-→ état réactif
+    -> état réactif
 
 Computed
-→ état dérivé
+    -> état dérivé
 
 Router
-→ URL → component
+    -> URL -> component
 
 HttpClient
-→ Angular → API
+    -> Angular -> API
 
 RxJS
-→ gestion des flux asynchrones
+    -> gestion des flux asynchrones
 ```
 
 ## Phrase à mémoriser
 
-> **Angular construit l'interface avec des components, centralise les services avec la Dependency Injection, gère l'état avec des mécanismes réactifs comme les Signals, et communique avec mon API ASP.NET Core via HTTP.**
+> Angular construit l'interface avec des components, centralise les services avec la Dependency Injection, gère l'état avec des mécanismes réactifs comme les Signals, et communique avec mon API ASP.NET Core via HTTP.
