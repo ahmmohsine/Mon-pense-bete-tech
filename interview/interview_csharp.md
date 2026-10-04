@@ -1651,4 +1651,4 @@ SOLID
 
 ## Phrase à mémoriser
 
-> **En entretien C#, je dois montrer que je comprends les abstractions derrière le langage : les types et leur comportement, le polymorphisme et la composition, le typage générique, LINQ, les delegates/events et surtout le modèle asynchrone avec `Task` et `async/await`, plutôt que de simplement réciter la syntaxe.**
+> **En entretien C#, il faut montrer qu'on comprends les abstractions derrière le langage : les types et leur comportement, le polymorphisme et la composition, le typage générique, LINQ, les delegates/events et surtout le modèle asynchrone avec `Task` et `async/await`, plutôt que de simplement réciter la syntaxe.**

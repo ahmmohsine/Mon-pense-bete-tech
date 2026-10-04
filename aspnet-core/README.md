@@ -2,53 +2,31 @@
 
 Cette section regroupe les mécanismes fondamentaux d'ASP.NET Core pour construire des applications Web et des API REST avec .NET.
 
-L'objectif n'est pas seulement de mémoriser les attributs ou les méthodes, mais de comprendre ce qui se passe entre :
-
-```text
-HTTP Request
-     |
-     v
-ASP.NET Core Pipeline
-     |
-     v
-Routing
-     |
-     v
-Model Binding / Validation
-     |
-     v
-Controller / Endpoint
-     |
-     v
-Service
-     |
-     v
-Response
-```
+L'objectif n'est pas seulement de mémoriser les attributs ou les méthodes, mais de comprendre ce qui se passe entre une requête HTTP et la réponse retournée par l'application.
 
 ## Fiches
 
-- Web API
-- Routing
-- Model Binding
-- Validation
-- Filters
-- Middleware
-- Authentication
-- Authorization
+* [Web API](web-api.md)
+* [Routing](routing.md)
+* [Model Binding](model-binding.md)
+* [Validation](validation.md)
+* [Middleware](middleware.md)
+* [Filters](filters.md)
+* [Authentication](authentication.md)
+* [Authorization](authorization.md)
 
 ## Ordre conseillé
 
 Pour comprendre correctement le fonctionnement d'une API ASP.NET Core :
 
-1. Web API
-2. Routing
-3. Model Binding
-4. Validation
-5. Middleware
-6. Filters
-7. Authentication
-8. Authorization
+1. [Web API](web-api.md)
+2. [Routing](routing.md)
+3. [Model Binding](model-binding.md)
+4. [Validation](validation.md)
+5. [Middleware](middleware.md)
+6. [Filters](filters.md)
+7. [Authentication](authentication.md)
+8. [Authorization](authorization.md)
 
 ## Structure d'une fiche
 
@@ -72,6 +50,9 @@ Une requête HTTP ASP.NET Core peut être visualisée comme ceci :
 Client
   |
   | HTTP Request
+  v
+ASP.NET Core Pipeline
+  |
   v
 Middleware
   |
@@ -112,8 +93,14 @@ Middleware
 Routing
     -> déterminer quel endpoint doit traiter la requête
 
+Authentication
+    -> déterminer qui est l'utilisateur
+
+Authorization
+    -> déterminer ce que l'utilisateur a le droit de faire
+
 Model Binding
-    -> transformer les données HTTP en objets/paramètres C#
+    -> transformer les données HTTP en objets ou paramètres C#
 
 Validation
     -> vérifier que les données reçues respectent les règles
@@ -121,23 +108,68 @@ Validation
 Controller / Endpoint
     -> exposer l'API HTTP
 
-Authentication
-    -> déterminer qui est l'utilisateur
+Service
+    -> exécuter la logique applicative ou métier
 
-Authorization
-    -> déterminer ce que l'utilisateur a le droit de faire
+Repository / EF Core
+    -> accéder aux données lorsque cette couche est utilisée
 ```
+
+## Pipeline et responsabilités
+
+Il est important de distinguer les mécanismes qui appartiennent au **pipeline HTTP** des mécanismes qui interviennent lors de l'exécution d'un endpoint.
+
+Une représentation simplifiée est :
+
+```text
+HTTP Request
+     |
+     v
+Middleware Pipeline
+     |
+     v
+Routing
+     |
+     +---- Authentication
+     |
+     +---- Authorization
+     |
+     v
+Endpoint
+     |
+     +---- Model Binding
+     |
+     +---- Validation
+     |
+     v
+Controller / Action
+     |
+     v
+Service
+     |
+     v
+Data Access / EF Core
+     |
+     v
+HTTP Response
+```
+
+Cette représentation est volontairement simplifiée : l'ordre et le comportement exact dépendent de la configuration de l'application et des mécanismes utilisés.
 
 ## À retenir
 
-ASP.NET Core fournit le pipeline et les mécanismes HTTP.
+ASP.NET Core fournit l'infrastructure HTTP et le pipeline permettant de recevoir une requête, de sélectionner un endpoint et de produire une réponse.
 
-Les services applicatifs contiennent la logique métier.
+Les services applicatifs contiennent la logique applicative ou métier.
 
-Une bonne séparation permet de garder une API :
+Une bonne séparation des responsabilités permet de garder une API :
 
-- compréhensible ;
-- testable ;
-- maintenable ;
-- sécurisée ;
-- facilement évolutive.
+* compréhensible ;
+* testable ;
+* maintenable ;
+* sécurisée ;
+* facilement évolutive.
+
+La règle mentale principale :
+
+> **ASP.NET Core gère le transport HTTP et le pipeline ; l'application gère la logique métier.**
