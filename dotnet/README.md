@@ -6,23 +6,25 @@ L'objectif n'est pas seulement de mémoriser les méthodes, mais de comprendre c
 
 ## Fiches
 
-- [Dependency Injection](dependency-injection.md)
-- Middleware
-- Configuration
-- Logging
-- Options Pattern
-- CancellationToken
+* [Dependency Injection](dependency-injection.md)
+* [Middleware](middleware.md)
+* [Configuration](configuration.md)
+* [Logging](logging.md)
+* [Options Pattern](options-pattern.md)
+* [CancellationToken](cancellation-token.md)
+* [Async / Await](async-await.md)
 
 ## Ordre conseillé
 
 Pour comprendre correctement le fonctionnement d'une application .NET moderne :
 
-1. Dependency Injection
-2. Middleware
-3. Configuration
-4. Logging
-5. Options Pattern
-6. CancellationToken
+1. [Dependency Injection](dependency-injection.md)
+2. [Middleware](middleware.md)
+3. [Configuration](configuration.md)
+4. [Logging](logging.md)
+5. [Options Pattern](options-pattern.md)
+6. [Async / Await](async-await.md)
+7. [CancellationToken](cancellation-token.md)
 
 ## Structure d'une fiche
 
@@ -59,6 +61,9 @@ Application
     |
     +-- Options
     |    -> transforme la configuration en objets typés
+    |
+    +-- Async / Await
+    |    -> permet d'effectuer des opérations asynchrones
     |
     +-- CancellationToken
          -> permet d'arrêter proprement un travail
