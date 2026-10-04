@@ -6,6 +6,7 @@ L'objectif n'est pas seulement de mémoriser la syntaxe Angular, mais de compren
 
 ```text
 Application Angular
+
       |
       +-- Components
       |      -> interface et comportement UI
@@ -32,7 +33,7 @@ Application Angular
              -> gestion des flux asynchrones
 ```
 
-Dans un contexte Full Stack .NET, le fonctionnement général peut être représenté ainsi :
+Dans un contexte Full Stack .NET :
 
 ```text
 Angular
@@ -55,30 +56,31 @@ Database
 
 ## Fiches
 
-* [Components](components.md)
-* [Inputs & Outputs](inputs-outputs.md)
-* [Services](services.md)
-* [Signals](signals.md)
-* [RxJS](rxjs.md)
+- [Components](components.md)
+- [Inputs & Outputs](inputs-outputs.md)
+- [Services](services.md)
+- [Dependency Injection](dependency-injection.md)
+- [Signals](signals.md)
+- [Routing](routing.md)
+- [HttpClient](httpclient.md)
+- [RxJS](rxjs.md)
+- [Forms](forms.md)
+- [Authentication](authentication.md)
 
 ---
 
 ## Ordre conseillé
 
-Pour apprendre Angular progressivement :
-
 1. [Components](components.md)
 2. [Inputs & Outputs](inputs-outputs.md)
 3. [Services](services.md)
-4. Dependency Injection
+4. [Dependency Injection](dependency-injection.md)
 5. [Signals](signals.md)
-6. Routing
-7. HttpClient
+6. [Routing](routing.md)
+7. [HttpClient](httpclient.md)
 8. [RxJS](rxjs.md)
-9. Forms
-10. Authentication
-
-Les concepts Routing, HttpClient, Forms et Authentication sont abordés dans la fiche de vue d'ensemble actuelle, mais ne disposent pas encore d'une fiche dédiée dans ce dossier.
+9. [Forms](forms.md)
+10. [Authentication](authentication.md)
 
 ---
 
@@ -99,8 +101,6 @@ Chaque fiche doit essayer de répondre à ces questions :
 ---
 
 ## Mental model
-
-Pour comprendre une application Angular, pense à ces responsabilités :
 
 ```text
 Component
@@ -155,8 +155,6 @@ Voir : [Components](components.md)
 
 ## Communication entre components
 
-Angular permet aux components de communiquer entre eux.
-
 ```text
 Parent
    |
@@ -169,7 +167,7 @@ Child
 Parent
 ```
 
-La règle mentale :
+Règle mentale :
 
 ```text
 Input  = parent -> enfant
@@ -184,8 +182,6 @@ Voir : [Inputs & Outputs](inputs-outputs.md)
 
 Les services permettent notamment de sortir certaines responsabilités des components.
 
-Exemple :
-
 ```text
 Component
     |
@@ -198,8 +194,6 @@ HTTP
     v
 API
 ```
-
-Cela permet d'éviter de concentrer toute la logique dans les components.
 
 Voir : [Services](services.md)
 
@@ -230,13 +224,13 @@ builder.Services.AddScoped<IHotelService, HotelService>();
 
 En Angular, le mécanisme et la syntaxe sont différents, mais l'idée générale reste celle de l'injection de dépendances.
 
+Voir : [Dependency Injection](dependency-injection.md)
+
 ---
 
 ## Signals
 
 Les Signals permettent de représenter un état réactif dans Angular moderne.
-
-Mental model :
 
 ```text
 Signal
@@ -251,7 +245,7 @@ Angular détecte les changements
 Interface mise à jour
 ```
 
-Une distinction importante :
+Distinction importante :
 
 ```text
 Signal
@@ -269,18 +263,16 @@ Voir : [Signals](signals.md)
 
 Le Router permet de naviguer entre différentes vues d'une application Angular sans recharger toute l'application.
 
-Mental model :
-
 ```text
 URL
-  |
-  v
+ |
+ v
 Angular Router
-  |
-  v
+ |
+ v
 Route
-  |
-  v
+ |
+ v
 Component
 ```
 
@@ -293,13 +285,13 @@ Exemples :
 /users
 ```
 
+Voir : [Routing](routing.md)
+
 ---
 
 ## HttpClient
 
 Angular communique généralement avec une API grâce à `HttpClient`.
-
-Dans une application Full Stack .NET :
 
 ```text
 Angular
@@ -318,35 +310,13 @@ EF Core
 Database
 ```
 
-Puis la réponse revient sous forme de données, généralement JSON :
-
-```text
-Database
-    |
-    v
-EF Core
-    |
-    v
-ASP.NET Core
-    |
-    | JSON
-    v
-Angular
-    |
-    v
-Component
-    |
-    v
-Template
-```
+Voir : [HttpClient](httpclient.md)
 
 ---
 
 ## RxJS
 
 Angular utilise largement RxJS pour gérer les flux asynchrones.
-
-Mental model :
 
 ```text
 Observable
@@ -361,7 +331,7 @@ Operators
 Résultat
 ```
 
-Exemples d'opérateurs :
+Exemples :
 
 ```text
 map
@@ -369,32 +339,45 @@ filter
 catchError
 ```
 
-Il faut notamment savoir distinguer :
-
-```text
-Promise
-```
-
-et :
-
-```text
-Observable
-```
-
-Ils répondent à des besoins différents.
+Il faut notamment savoir distinguer Promise et Observable.
 
 Voir : [RxJS](rxjs.md)
 
 ---
 
-## Angular et ASP.NET Core
+## Forms
 
-Dans ton contexte Full Stack .NET, garde cette architecture en tête :
+Angular propose plusieurs approches pour gérer les formulaires.
+
+Les deux principales sont les Template-driven Forms et les Reactive Forms.
+
+Voir : [Forms](forms.md)
+
+---
+
+## Authentication
+
+Dans une application Full Stack Angular + ASP.NET Core, l'authentification permet notamment d'identifier l'utilisateur.
+
+Il faut distinguer :
+
+```text
+Authentication
+    = Qui es-tu ?
+
+Authorization
+    = As-tu le droit ?
+```
+
+Voir : [Authentication](authentication.md)
+
+---
+
+## Angular et ASP.NET Core
 
 ```text
 +---------------------------+
 |          Angular          |
-|                           |
 | Components                |
 | Services                  |
 | Signals                   |
@@ -406,7 +389,6 @@ Dans ton contexte Full Stack .NET, garde cette architecture en tête :
               v
 +---------------------------+
 |     ASP.NET Core API      |
-|                           |
 | Controllers               |
 | Services                  |
 | DTOs                      |
@@ -417,7 +399,6 @@ Dans ton contexte Full Stack .NET, garde cette architecture en tête :
               v
 +---------------------------+
 |          EF Core          |
-|                           |
 | DbContext                 |
 | Entities                  |
 | LINQ                      |
@@ -425,7 +406,7 @@ Dans ton contexte Full Stack .NET, garde cette architecture en tête :
               |
               v
 +---------------------------+
-|         Database          |
+|          Database         |
 +---------------------------+
 ```
 
@@ -475,29 +456,32 @@ Service
 API
 ```
 
-Le component peut alors se concentrer davantage sur l'interface et l'état directement lié à celle-ci.
+Voir également :
+
+- [Components](components.md)
+- [Services](services.md)
+- [HttpClient](httpclient.md)
+- [Signals](signals.md)
 
 ---
 
 ## Correspondances Angular / .NET
 
-Comme tu viens principalement de .NET, certaines analogies peuvent aider :
-
-| Angular              | .NET / ASP.NET Core                   |
-| -------------------- | ------------------------------------- |
-| Component            | Classe orientée UI                    |
-| Service              | Service applicatif                    |
-| Dependency Injection | Dependency Injection                  |
-| HttpClient           | HttpClient                            |
-| Observable           | Abstraction de flux asynchrone        |
-| Router               | Routing                               |
-| Guard                | Contrôle d'accès / navigation         |
-| Interceptor          | Conceptuellement proche d'un pipeline |
-| Signal               | État réactif                          |
-| Template             | Interface / vue                       |
-| TypeScript           | Langage frontend                      |
-| ASP.NET Core API     | Backend                               |
-| EF Core              | Accès aux données                     |
+| Angular | .NET / ASP.NET Core |
+|---|---|
+| Component | Classe orientée UI |
+| Service | Service applicatif |
+| Dependency Injection | Dependency Injection |
+| HttpClient | HttpClient |
+| Observable | Abstraction de flux asynchrone |
+| Router | Routing |
+| Guard | Contrôle d'accès / navigation |
+| Interceptor | Conceptuellement proche d'un pipeline |
+| Signal | État réactif |
+| Template | Interface / vue |
+| TypeScript | Langage frontend |
+| ASP.NET Core API | Backend |
+| EF Core | Accès aux données |
 
 Attention : ces correspondances servent à construire une intuition. Les mécanismes internes ne sont pas identiques.
 
