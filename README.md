@@ -14,7 +14,7 @@ L'objectif est de disposer d'un pense-bête pratique pour :
 
 ## C#
 
-Notions fondamentales et avancées du langage.
+Notions fondamentales et avancées du langage C#.
 
 - [C# — Index](csharp/README.md)
 - [Collections](csharp/collections.md)
@@ -25,7 +25,6 @@ Notions fondamentales et avancées du langage.
 - [Records](csharp/records.md)
 - [Nullable Reference Types](csharp/nullable-reference-types.md)
 - [Pattern Matching](csharp/pattern-matching.md)
-- [Async / Await](csharp/async-await.md)
 
 ---
 
@@ -34,6 +33,7 @@ Notions fondamentales et avancées du langage.
 Concepts fondamentaux de la plateforme .NET.
 
 - [.NET — Index](dotnet/README.md)
+- [Async / Await](dotnet/async-await.md)
 - [Dependency Injection](dotnet/dependency-injection.md)
 - [Middleware](dotnet/middleware.md)
 - [Configuration](dotnet/configuration.md)
@@ -92,8 +92,6 @@ Conception et organisation des applications .NET.
 Sécurisation des applications et APIs.
 
 - [Sécurité des APIs — Index](api-security/README.md)
-- [Risques OWASP API Top 10](api-security/01-risques-owasp.md)
-- [DTOs & Rate Limiting](api-security/02-dto-et-rate-limiting.md)
 - [Authentication](api-security/authentication.md)
 - [Authorization](api-security/authorization.md)
 - [JWT](api-security/jwt.md)
@@ -128,31 +126,31 @@ Notions Angular utiles pour le développement Full Stack.
 
 ## Préparation aux entretiens
 
-Fiches spécialement orientées entretien technique.
+Fiches spécialement orientées entretien technique .NET.
 
 ### C#
 
-- [Entretien C#](interview/csharp.md)
+- [Entretien C#](interview/interview_csharp.md)
 
 ### .NET
 
-- [Entretien .NET](interview/dotnet.md)
+- [Entretien .NET](interview/interview_dotnet.md)
 
 ### ASP.NET Core
 
-- [Entretien ASP.NET Core](interview/aspnet-core.md)
+- [Entretien ASP.NET Core](interview/interview_aspnet-core.md)
 
 ### EF Core
 
-- [Entretien EF Core](interview/ef-core.md)
+- [Entretien EF Core](interview/interview_ef-core.md)
 
 ### Architecture
 
-- [Entretien Architecture](interview/architecture.md)
+- [Entretien Architecture](interview/interview_architecture.md)
 
 ### Sécurité
 
-- [Entretien Sécurité](interview/security.md)
+- [Entretien Sécurité](interview/interview_security.md)
 
 ---
 
@@ -176,19 +174,19 @@ Sécurité
 Azure
  ↓
 Angular
-```
-
-Puis terminer par :
-
-```text
+ ↓
 Interview
 ```
 
-pour vérifier que les notions peuvent être expliquées oralement.
+L'objectif est de construire progressivement les connaissances :
+
+**Langage → plateforme → Web → données → architecture → sécurité → cloud → frontend**
+
+Puis de terminer avec les fiches **Interview** afin de vérifier que les concepts peuvent être expliqués oralement.
 
 ---
 
-## Principe de ce pense-bête
+## Méthode d'apprentissage
 
 Une notion ne devrait pas seulement être mémorisée comme une définition.
 
@@ -203,11 +201,28 @@ Pourquoi l'utiliser ?
         ↓
 Quel problème résout-il ?
         ↓
+Que se passe-t-il derrière la syntaxe ?
+        ↓
 Quels sont ses pièges ?
         ↓
 Quand ne faut-il pas l'utiliser ?
+        ↓
+Comment l'expliquer simplement ?
 ```
 
+---
+
 ## Objectif
+
+Ce pense-bête a pour objectif de permettre de :
+
+- comprendre les concepts plutôt que mémoriser uniquement la syntaxe ;
+- comprendre les mécanismes internes lorsque cela est pertinent ;
+- reconnaître les erreurs fréquentes ;
+- comparer différentes solutions techniques ;
+- connaître les avantages et inconvénients de chaque approche ;
+- savoir quand utiliser ou éviter une technologie ou un pattern ;
+- expliquer clairement ses choix techniques ;
+- préparer efficacement les entretiens techniques .NET.
 
 > Comprendre suffisamment les concepts pour pouvoir expliquer clairement ses choix techniques et raisonner sur le code, plutôt que simplement mémoriser de la syntaxe.
